@@ -28,14 +28,23 @@ public interface RetrofitInterface {
         Call<Cycle> getCycle(@Path("cycleid") String cycleid);
 
 
-//    @FormUrlEncoded
+    //    @FormUrlEncoded
     @PATCH("/users/{id}")
     Call<Void> setRented(@Path("id") String _id,
+                         @Body HashMap<String, String> map);
+
+    //    @FormUrlEncoded
+    @PATCH("/users/{stdid}")
+    Call<Void> removeRented(@Path("stdid") String abc,
                          @Body HashMap<String, String> map);
 
     @PATCH("/cycles/{cycleid}")
     Call<Void> setRentedUser(@Path("cycleid") String cycleid,
                          @Body HashMap<String, String> map);
+
+    @PATCH("/cycles/{cycleid}")
+    Call<Void> removeRentedUser(@Path("cycleid") String cycleid,
+                             @Body HashMap<String, String> map);
 //    @PATCH("cycles/{cycleid}")
 //    Call<Cycle> getCycle(@Path("cycleid") String id);
 }

@@ -62,8 +62,8 @@ public class LoggedGuardActivity extends AppCompatActivity {
         scanbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(LoggedGuardActivity.this, "Button Dababa",
-                        Toast.LENGTH_LONG).show();
+//                Toast.makeText(LoggedGuardActivity.this, "Button Dababa",
+//                        Toast.LENGTH_LONG).show();
                 startActivity(new Intent(LoggedGuardActivity.this, scannerView.class));
             }
         });
@@ -72,8 +72,8 @@ public class LoggedGuardActivity extends AppCompatActivity {
         returnbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(LoggedGuardActivity.this, "Return Button is Pressed",
-                        Toast.LENGTH_LONG).show();
+//                Toast.makeText(LoggedGuardActivity.this, "Return Button is Pressed",
+//                        Toast.LENGTH_LONG).show();
 
                 String cycleid = (String) cycleidTV.getText();
                 Toast.makeText(LoggedGuardActivity.this, cycleid, Toast.LENGTH_LONG).show();
@@ -91,7 +91,7 @@ public class LoggedGuardActivity extends AppCompatActivity {
     //
 //    }
     private void getCycleHandler(String cycleid) {
-        Toast.makeText(LoggedGuardActivity.this, "get cycle me ghusa", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(LoggedGuardActivity.this, "get cycle me ghusa", Toast.LENGTH_SHORT).show();
         // post request
         Call<Cycle> call = retrofitInterface.getCycle(cycleid);
         // execute http request
@@ -108,14 +108,16 @@ public class LoggedGuardActivity extends AppCompatActivity {
                     String cycleid = result.getCycleid();
                     String status = result.getStatus();
                     String stdid = result.getStdid();
-                    Toast.makeText(LoggedGuardActivity.this, status,
+//                    _id = stdid;
+                    Toast.makeText(LoggedGuardActivity.this, status+" "+cycleid+" "+stdid,
                             Toast.LENGTH_LONG).show();
                     if (status.equals("rented")) {
                         // AGAR RENTED NAHI HAI
 //                        statusOfCycle = true;
-//                        setRentedHandler(cycleid);
-//                        setRentedUserHandler(cycleid);
-                        Toast.makeText(LoggedGuardActivity.this, "Nahi Hai", Toast.LENGTH_SHORT).show();
+
+                        removeRentedHandler(stdid);
+                        removeRentedUserHandler(cycleid);
+                        Toast.makeText(LoggedGuardActivity.this, "Rented Hai", Toast.LENGTH_SHORT).show();
 
                     } else {
                         Toast.makeText(LoggedGuardActivity.this, "Cycle Rented Nahi Hai", Toast.LENGTH_SHORT).show();
@@ -142,79 +144,79 @@ public class LoggedGuardActivity extends AppCompatActivity {
             }
         });
     }
+
+    //
+    private void removeRentedHandler(String stdid) {
+
+//        Toast.makeText(LoggedGuardActivity.this, "inside setRentedCycle",
+//                Toast.LENGTH_LONG).show();
+        HashMap<String, String> map = new HashMap<>();
+        // preparing for post
+        map.put("cycleid", "");
+//        // post request
+        Call<Void> call = retrofitInterface.removeRented(stdid, map);
+        // execute http request
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+
+                if (response.code() == 200) {
+                    Toast.makeText(LoggedGuardActivity.this, "Cycle Returned",
+                            Toast.LENGTH_LONG).show();
+                } else if (response.code() == 404) {
+                    Toast.makeText(LoggedGuardActivity.this, "Wrong Credentials",
+                            Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(LoggedGuardActivity.this, "Some Error in Patch",
+                            Toast.LENGTH_LONG).show();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(LoggedGuardActivity.this, t.getMessage(),
+                        Toast.LENGTH_LONG).show();
+            }
+        });
+
+    }
+//
+    private void removeRentedUserHandler(String cycleid) {
+
+        Toast.makeText(LoggedGuardActivity.this, "inside setRentedCycle",
+                Toast.LENGTH_LONG).show();
+        HashMap<String, String> map = new HashMap<>();
+        // preparing for post
+        map.put("status", "");
+        map.put("stdid", "");
+//        // post request
+        Call<Void> call = retrofitInterface.setRentedUser(cycleid,map);
+        // execute http request
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+
+                if (response.code() == 200) {
+                    Toast.makeText(LoggedGuardActivity.this, "Jerk Off",
+                            Toast.LENGTH_LONG).show();
+                } else if (response.code() == 404) {
+                    Toast.makeText(LoggedGuardActivity.this, "Wrong Credentials",
+                            Toast.LENGTH_LONG).show();
+                }else {
+                    Toast.makeText(LoggedGuardActivity.this, "Some Error in Patch",
+                            Toast.LENGTH_LONG).show();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(LoggedGuardActivity.this, t.getMessage(),
+                        Toast.LENGTH_LONG).show();
+            }
+        });
+
+    }
+
 }
-//
-//    private void setRentedHandler(String cycleid) {
-//
-//        Toast.makeText(LoggedGuardActivity.this, "inside setRentedCycle",
-//                Toast.LENGTH_LONG).show();
-//        HashMap<String, String> map = new HashMap<>();
-//        // preparing for post
-//        map.put("cycleid", cycleid);
-////        // post request
-//        Call<Void> call = retrofitInterface.setRented(_id,map);
-//        // execute http request
-//        call.enqueue(new Callback<Void>() {
-//            @Override
-//            public void onResponse(Call<Void> call, Response<Void> response) {
-//
-//                if (response.code() == 200) {
-//                    Toast.makeText(LoggedGuardActivity.this, "Cycle Rented To You",
-//                            Toast.LENGTH_LONG).show();
-//                } else if (response.code() == 404) {
-//                    Toast.makeText(LoggedGuardActivity.this, "Wrong Credentials",
-//                            Toast.LENGTH_LONG).show();
-//                }else {
-//                    Toast.makeText(LoggedGuardActivity.this, "Some Error in Patch",
-//                            Toast.LENGTH_LONG).show();
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Call<Void> call, Throwable t) {
-//                Toast.makeText(LoggedGuardActivity.this, t.getMessage(),
-//                        Toast.LENGTH_LONG).show();
-//            }
-//        });
-//
-//    }
-//
-//    private void setRentedUserHandler(String cycleid) {
-//
-//        Toast.makeText(LoggedGuardActivity.this, "inside setRentedCycle",
-//                Toast.LENGTH_LONG).show();
-//        HashMap<String, String> map = new HashMap<>();
-//        // preparing for post
-//        map.put("status", "rented");
-//        map.put("stdid", _id);
-////        // post request
-//        Call<Void> call = retrofitInterface.setRentedUser(cycleid,map);
-//        // execute http request
-//        call.enqueue(new Callback<Void>() {
-//            @Override
-//            public void onResponse(Call<Void> call, Response<Void> response) {
-//
-//                if (response.code() == 200) {
-//                    Toast.makeText(LoggedGuardActivity.this, "Jerk Off",
-//                            Toast.LENGTH_LONG).show();
-//                } else if (response.code() == 404) {
-//                    Toast.makeText(LoggedGuardActivity.this, "Wrong Credentials",
-//                            Toast.LENGTH_LONG).show();
-//                }else {
-//                    Toast.makeText(LoggedGuardActivity.this, "Some Error in Patch",
-//                            Toast.LENGTH_LONG).show();
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Call<Void> call, Throwable t) {
-//                Toast.makeText(LoggedGuardActivity.this, t.getMessage(),
-//                        Toast.LENGTH_LONG).show();
-//            }
-//        });
-//
-//    }
-//
-//}
